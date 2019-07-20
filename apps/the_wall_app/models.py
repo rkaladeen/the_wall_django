@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from datetime import datetime, date
 import re, bcrypt
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.+_-]+\.[a-zA-Z]+$')
@@ -45,6 +45,11 @@ class UserManager(models.Manager):
       dob = datetime.strptime(postData['dob'], "%Y-%m-%d")
       if dob > datetime.now():
         valid['errors']['dob'] = "Date of Birth must be in the past"       
+      else:
+        today = date.today() 
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day)) 
+        if age < 13:
+          valid['errors']['dob'] = "You must be at least 13 to register"      
     if len(postData['gender']) < 1:
       valid['errors']['gender'] = "Please select a gender"
 
@@ -55,11 +60,9 @@ class UserManager(models.Manager):
           email=postData["email"].lower(),
           password=bcrypt.hashpw(postData["password"].encode(), bcrypt.gensalt()).decode(),
           dob=postData["dob"],
-          gender=postData["gender"]
-          )
+          gender=postData["gender"])
     else:
       valid["is_valid"] = False
-
     return valid
   
   def login(self, postData):
@@ -68,36 +71,24 @@ class UserManager(models.Manager):
         "user": None,
         "errors": {}
     }
-
     # validations
     if len(postData['login_email'])<1:
       valid['errors']['login_email'] = "Email is required!"
-      print("TESTTTT 1")
     elif not EMAIL_REGEX.match(postData['login_email']):
       valid['errors']['login_email'] = "invalid email!"
-      print("TESTTTT 2")
     else:
       valid['user'] = User.objects.filter(email=postData['login_email'].lower())
-      print("TESTTTT 3")
       if len(valid['user']) == 0:
         valid['errors']['login_email'] = "unknown email"
-        print("TESTTTT 4")
-    
     if len(postData['login_password'])<1:
       valid['errors']['login_password'] = "Password is required!"
-      print("TESTTTT 5")
     elif len(postData['login_password'])<8:
       valid['errors']['login_password'] = "Password must be at least 8 characters!"
-      print("TESTTTT 6")
-    
     if len(valid['errors']) == 0:
       valid['user'] = valid['user'][0]
-      print("TESTTTT 7")
 
       check = bcrypt.checkpw(postData['login_password'].encode(), valid['user'].password.encode())
-
       if not check:
-        print("TESTTTT 8")
         valid["is_valid"] = False
         valid["errors"]["login_password"] = "Invalid login information."
     
@@ -105,10 +96,9 @@ class UserManager(models.Manager):
       valid["is_valid"] = True
       return valid
     valid["is_valid"] = False
-    print("TESTTTT 8")
 
     return valid
-# Create your models here.
+
 class User(models.Model):
   # id auto-generated
   first_name = models.CharField(max_length=45)
@@ -120,4 +110,21 @@ class User(models.Model):
   user_level = models.CharField(max_length=45, default="user")
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+  # comments attribute added
   objects = UserManager()
+
+class Message(models.Model):
+  # id auto-generated
+  user = models.ForeignKey(User, related_name="messages", on_delete=models.CASCADE)
+  message = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
+  # comments attribute added
+
+class Comment(models.Model):
+  # id auto-generated
+  message = models.ForeignKey(Message, related_name="comments", on_delete=models.CASCADE)
+  user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)
+  comment = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)

@@ -7,12 +7,73 @@
   <title>Welcome</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/e2cd4330ca.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   {% load static %}
   <link rel="icon" href="{% static 'the_wall_app/images/icon.png' %}">
   <link rel="stylesheet" href="{% static 'the_wall_app/css/style.css' %}">    
   <script src="{% static 'the_wall_app/js/script.js' %}"></script>
 </head>
 <body>
-  <h1>Success!!! {{ request.session.fname }}</h1>
+
+  <!--NAV BAR-->
+  <nav class="navbar navbar-light px-5">
+    <a class="navbar-brand" href="">Coding Dojo Wall</a>
+    <div class="navbar-right justify-content-end">
+      <span class="font-weight-bold text-white align-middle">Welcome {{ request.session.fname }}!</span>
+      <a class="btn btn-danger btn-sm ml-3 pt-0" href="/logout/">Log Out</a>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="jumbotron bg-white mt-3">
+      <form action="#" method="POST">
+        <div class="form-group">
+          <label for="message">Post a message</label>
+          <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+          <div class="message-footer">
+            <input class="btn btn-primary btn-sm mt-2" type="submit" value="Post Message">
+            <small class="text-success float-right"> 500 Characters remaining</small>
+            <!--Add Character counting AJAX here to the left-->
+          </div>
+        </div>
+      </form>
+    </div> <!--END OF MESSAGE JUMBOTRON-->
+
+    <!--ADD FOR TO PRINT MESSAGES-->
+    <div class="jumbotron bg-light">
+      <div class="row">
+        <p class="col-11">Add Message Author - Post Date</p>
+        <a class=" col-1 fas fa-trash-alt text-danger fa-2x pb-3" href="#"></a>
+      </div>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi autem excepturi cumque, esse consequatur, sapiente, eum voluptate explicabo beatae cupiditate modi dignissimos voluptas voluptatem! Veritatis tempore cupiditate nisi quae accusamus!</p>
+      <!--ADD FOR TO PRINT COMMENTS-->
+      <div class="jumbotron bg-white w-75 mx-auto">
+        <div class="row">
+          <p class="col-11">Add Comment Author - Post Date</p>
+          <a class="col-1 fas fa-trash-alt text-danger pb-3" href="#"></a>
+        </div>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi autem excepturi cumque, esse consequatur, sapiente, eum voluptate explicabo beatae cupiditate modi dignissimos voluptas voluptatem! Veritatis tempore cupiditate nisi quae accusamus!</p>
+      </div> <!--END OF COMMENTS JUMBOTRON-->
+
+      <div class="jumbotron comment-container mt-3">
+        <form action="#" method="POST">
+          <div class="form-group">
+            <label class="text-white" for="comment">Post a comment</label>
+            <textarea class="form-control" id="comment" name="comment" rows="2"></textarea>
+            <div class="comment-footer">
+              <input class="btn btn-success btn-sm mt-2" type="submit" value="Post Comment">
+              <small class="text-white float-right"> 100 Characters remaining</small>
+              <!--Add Character counting AJAX here to the left-->
+            </div> <!--END OF COMMENT FOOTER-->
+          </div> 
+        </form>
+      </div> <!--END OF COMMENT INPUT JUMBOTRON-->
+
+    </div> <!--END OF MESSAGE JUMBOTRON-->
+
+  </div> <!--END OF CONTAINER-->
+
+  
+
+
 </body>
 </html>

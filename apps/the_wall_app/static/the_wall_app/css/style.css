@@ -7,9 +7,11 @@
 }
 
 
-.navbar {
+.navbar, .comment-container{
   background-color: #3b5998;
 }
+
+
 
 .navbar-brand{
   color: aliceblue !important;
@@ -22,4 +24,12 @@ body {
 
 small {
   color: crimson;
+}
+
+.jumbotron{
+  padding: 2rem !important;
+}
+
+.comment-container {
+  padding: 1rem !important;
 }
