@@ -1,0 +1,25 @@
+* {
+  /* outline: 1px solid red; */
+}
+
+.form-row {
+  margin-bottom: 10px !important;
+}
+
+
+.navbar {
+  background-color: #3b5998;
+}
+
+.navbar-brand{
+  color: aliceblue !important;
+  font-weight: bold;
+}
+
+body {
+  background-color: #e9ebee;
+}
+
+small {
+  color: crimson;
+}

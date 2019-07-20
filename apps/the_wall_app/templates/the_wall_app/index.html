@@ -8,10 +8,81 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/e2cd4330ca.js"></script>
   {% load static %}
+  <link rel="icon" href="{% static 'the_wall_app/images/icon.png' %}">
   <link rel="stylesheet" href="{% static 'the_wall_app/css/style.css' %}">    
   <script src="{% static 'the_wall_app/js/script.js' %}"></script>
 </head>
 <body>
-  
+  <div class="container">
+    <!--NAV BAR-->
+    <nav class="navbar navbar-light">
+      <a class="navbar-brand" href="">Coding Dojo Wall</a>
+      <form class="form-inline" action="/login/" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="user-icon"><i class="fas fa-user"></i></span>
+          </div>
+          <input type="email" class="form-control" placeholder="Email" aria-label="email" aria-describedby="user-icon" name="login_email">
+        </div>
+        <input class="form-control mr-sm-2 ml-1" type="password" placeholder="Password" aria-describedby="lpword" aria-label="password" name="login_password">
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+      </form>
+    </nav>
+
+    <!--REGISTRATION WINDOW-->
+    <div class="register-container w-50 float-right mt-3">
+      <small id="user-icon" class="d-block">{{ request.session.errors.login_email }}</small>
+      <small id="lpword">{{ request.session.errors.login_password }}</small>
+      <h1>Create a New Account</h1>
+      <h4>Join our developer blog.</h4>
+
+      <form class="form-group" action="/register/" method="POST">
+        {% csrf_token %}
+        <input class="form-control mb-1 w-75" type="text" placeholder="First name" name="first_name" aria-describedby="fname">
+        <small id="fname">{{ request.session.errors.first_name }}</small>
+        <input class="form-control mb-1 w-75" type="text" placeholder="Last name" name="last_name" aria-describedby="lname">
+        <small id="lname">{{ request.session.errors.last_name }}</small>
+      
+        <input class="form-control mb-3 w-75" type="email" placeholder="Email" name="email" aria-describedby="email">
+        <small id="email">{{ request.session.errors.email }}</small>
+        <input class="form-control mb-1 w-75" type="password" placeholder="New Password" name="password" aria-describedby="pword">
+        <small id="pword">{{ request.session.errors.password }}</small>
+        <input class="form-control mb-1 w-75" type="password" placeholder="Confirm Password" name="password_confirm" aria-describedby="pword_c">
+        <small id="pword_c">{{ request.session.errors.password_confirm }}</small>
+        <label class="mt-3 d-block" for="dob">Birthday</label>
+        <input class="form-control w-50" type="date" id="dob" name="dob" aria-describedby="dob">  
+        <small id="dob">{{ request.session.errors.dob }}</small>
+
+        <label class="d-block">Gender</label>
+        <input type="hidden" name="gender" value="">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Male">
+          <label class="form-check-label" for="inlineRadio1">Male</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Female">
+          <label class="form-check-label" for="inlineRadio2">Female</label>
+        </div>
+        <small>{{ request.session.errors.gender }}</small>
+        <input class="btn btn-primary d-block mt-2" type="submit" value="Register">
+      </form>
+
+    </div> <!-- END OF REGISTRATION CONTAINER-->
+
+    <div class="left-container w-50 float-left">
+      <div class="card w-50 mx-auto mt-5">
+        <img src="{% static 'the_wall_app/images/card.jpg' %}" class="card-img-top" alt="My image">
+        <div class="card-body">
+          <h5 class="card-title">Learn to Code</h5>
+          <p class="card-text">JUMPSTART YOUR NEW CAREER Become a Software Developer in 14 Weeks</p>
+          <a href="https://www.codingdojo.com/" target="_blank" class="btn btn-outline-primary">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
 </body>
 </html>
