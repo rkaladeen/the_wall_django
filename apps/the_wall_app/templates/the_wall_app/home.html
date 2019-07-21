@@ -25,7 +25,8 @@
   </nav>
   <div class="container">
     <div class="jumbotron bg-white mt-3">
-      <form action="#" method="POST">
+      <form action="/post_message/" method="POST">
+        {% csrf_token %}
         <div class="form-group">
           <label for="message">Post a message</label>
           <textarea class="form-control" id="message" name="message" rows="3"></textarea>
@@ -39,27 +40,38 @@
     </div> <!--END OF MESSAGE JUMBOTRON-->
 
     <!--ADD FOR TO PRINT MESSAGES-->
+    {% for message in all_messages %}
     <div class="jumbotron bg-light">
       <div class="row">
-        <p class="col-11">Add Message Author - Post Date</p>
-        <a class=" col-1 fas fa-trash-alt text-danger fa-2x pb-3" href="#"></a>
+        <p class="col-11 font-weight-bold">{{ message.user.first_name }} {{ message.user.last_name }} - {{ message.created_at }}</p>
+        {% if message.user.id == request.session.uid %}
+        <a class=" col-1 fas fa-trash-alt text-danger fa-2x pb-3" href="/delete_message/{{ message.id }}/"></a>
+        {% endif %}
       </div>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi autem excepturi cumque, esse consequatur, sapiente, eum voluptate explicabo beatae cupiditate modi dignissimos voluptas voluptatem! Veritatis tempore cupiditate nisi quae accusamus!</p>
+      <p>{{ message.message }}</p>
       <!--ADD FOR TO PRINT COMMENTS-->
+      {% for comment in all_comments %}
+      {% if comment.message.id == message.id %}
       <div class="jumbotron bg-white w-75 mx-auto">
         <div class="row">
-          <p class="col-11">Add Comment Author - Post Date</p>
-          <a class="col-1 fas fa-trash-alt text-danger pb-3" href="#"></a>
+          <p class="col-11 font-weight-bold">{{ comment.user.first_name }} {{ comment.user.last_name }} - {{ comment.created_at }}</p>
+          {% if comment.user.id == request.session.uid %}
+          <a class="col-1 fas fa-trash-alt text-danger pb-3" href="/delete_comment/{{ comment.id }}/"></a>
+          {% endif %}
         </div>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi autem excepturi cumque, esse consequatur, sapiente, eum voluptate explicabo beatae cupiditate modi dignissimos voluptas voluptatem! Veritatis tempore cupiditate nisi quae accusamus!</p>
+        <p>{{ comment.comment }}</p>
       </div> <!--END OF COMMENTS JUMBOTRON-->
+      {% endif %}
+      {% endfor %}
 
       <div class="jumbotron comment-container mt-3">
-        <form action="#" method="POST">
+        <form action="/post_comment/" method="POST">
+          {% csrf_token %}
           <div class="form-group">
             <label class="text-white" for="comment">Post a comment</label>
             <textarea class="form-control" id="comment" name="comment" rows="2"></textarea>
             <div class="comment-footer">
+              <input type="hidden" name="message_id" value="{{ message.id }}">
               <input class="btn btn-success btn-sm mt-2" type="submit" value="Post Comment">
               <small class="text-white float-right"> 100 Characters remaining</small>
               <!--Add Character counting AJAX here to the left-->
@@ -69,7 +81,7 @@
       </div> <!--END OF COMMENT INPUT JUMBOTRON-->
 
     </div> <!--END OF MESSAGE JUMBOTRON-->
-
+    {% endfor %}
   </div> <!--END OF CONTAINER-->
 
   

@@ -19,6 +19,7 @@ def register(request):
   if check["is_valid"]:
     request.session["errors"] = {}
     request.session['uid'] = check['user'].id
+    request.session['fname'] = check['user'].first_name
     request.session['is_logged_in'] = True
     return redirect('/welcome')
   else:
@@ -50,7 +51,12 @@ def login(request):
 
 def home(request):
   if request.session['is_logged_in']:
-    return render(request, "the_wall_app/home.html")
+    # message_poster = 
+    context = {
+      "all_messages": Message.objects.all(),
+      "all_comments": Comment.objects.all()
+      }
+    return render(request, "the_wall_app/home.html", context)
   return redirect('/')
 
 def logout(request):
@@ -58,3 +64,26 @@ def logout(request):
   request.session['is_logged_in'] = False
   return redirect('/')
 
+ # Wall Functions (MESSAGES)
+def post_message(request):
+  Message.objects.create(user=User.objects.get(id=request.session['uid']), message=request.POST['message'])
+  return redirect("/welcome")
+
+def delete_message(request, m_id):
+  message_to_delete = Message.objects.get(id=m_id)
+  message_to_delete.delete()
+  return redirect("/welcome")
+
+ # Wall Functions (COMMENTS)
+def post_comment(request):
+  message_commented_id = request.POST['message_id']
+  message_commented = Message.objects.get(id=message_commented_id)
+  user_commented_id = request.session['uid']
+  user_commented = User.objects.get(id=user_commented_id)
+  Comment.objects.create(message=message_commented, user=user_commented, comment=request.POST['comment'])
+  return redirect("/welcome")
+
+def delete_comment(request, c_id):
+  comment_to_delete = Comment.objects.get(id=c_id)
+  comment_to_delete.delete()
+  return redirect("/welcome")
