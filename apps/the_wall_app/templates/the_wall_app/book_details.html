@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/e2cd4330ca.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  {% load static %}
+  <link rel="icon" href="{% static 'the_wall_app/images/icon.png' %}">
+  <link rel="stylesheet" href="{% static 'the_wall_app/css/style.css' %}">    
+  <script src="{% static 'the_wall_app/js/script.js' %}"></script>
+</head>
+<body>
+  <!--NAV BAR-->
+  <nav class="navbar navbar-expand-lg navbar-light px-5 mb-2">
+    <a class="navbar-brand" href="">Coding Dojo Wall</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link fas fa-home fa-3x text-danger" href="/welcome/"></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fas fa-book fa-3x text-warning" href="/books/"></a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item pt-1">
+        <h3 class="font-weight-bold text-white">Welcome {{ request.session.fname }}!</h3>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fas fa-sign-out-alt fa-3x text-secondary ml-3 pt-0" href="/logout/"></a>
+      </li>
+    </ul>  
+  </nav>
+  <!--END OF NAV BAR-->
+  <div class="container">
+    <div class="row">
+      <div class="left-container jumbotron bg-white col-md-6"></div> <!--END OF LEFT CONTAINER-->
+      <div class="right-container jumbotron bg-white col-md-6"></div> <!--END OF RIGHT CONTAINER-->
+    </div> <!--END OF ROW-->
+  </div> <!--END OF CONTAINER-->
+</body>
+</html>

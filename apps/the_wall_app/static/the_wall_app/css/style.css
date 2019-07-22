@@ -18,12 +18,13 @@
   font-weight: bold;
 }
 
+
 body {
   background-color: #e9ebee;
 }
 
 small {
-  color: crimson;
+  /* color: crimson; */
 }
 
 .jumbotron{

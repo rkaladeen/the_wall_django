@@ -1,0 +1,23 @@
+{% if error_type == 'fname' %}
+<small class="text-danger">{{ errors }}</small>
+{% endif %}
+
+{% if error_type == 'lname' %}
+<small class="text-danger">{{ errors }}</small>
+{% endif %}
+
+{% if error_type == 'email' %}
+<small class="{{ errors.class }}">{{ errors.error }}</small>
+{% endif %}
+
+{% if error_type == 'pword' %}
+<small class="{{ errors.class }}">{{ errors.error }}</small>
+{% endif %}
+
+{% if error_type == 'c_pword' %}
+<small class="{{ errors.class }}">{{ errors.error }}</small>
+{% endif %}
+
+{% if error_type == 'dob' %}
+<small class="text-danger">{{ errors }}</small>
+{% endif %}
